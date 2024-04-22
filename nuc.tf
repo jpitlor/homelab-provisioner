@@ -1,12 +1,8 @@
 provider "proxmox" {
   endpoint = "https://192.168.2.203:8006/"
   username = "root@pam"
-  password = ""
+  password = var.vm_password
   insecure = true
-}
-
-data "local_file" "ssh_public_key" {
-  filename = "./id_rsa.pub"
 }
 
 resource "proxmox_virtual_environment_download_file" "ubuntu_server_image" {
@@ -22,7 +18,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
 
   initialization {
     user_account {
-      username = "jpitlor"
+      username = var.vm_username
       keys     = [trimspace(data.local_file.ssh_public_key.content)]
     }
   }
@@ -50,7 +46,7 @@ resource "proxmox_virtual_environment_vm" "haos_vm" {
 
   initialization {
     user_account {
-      username = "jpitlor"
+      username = var.vm_username
       keys     = [trimspace(data.local_file.ssh_public_key.content)]
     }
   }
