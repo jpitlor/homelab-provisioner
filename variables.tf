@@ -25,8 +25,15 @@ variable "vps_tag" {
   default     = "vps"
 }
 
-data "local_file" "startup_script" {
-  filename = "./install_puppet.sh"
+data "cloudinit_config" "install_puppet" {
+  gzip = false
+  base64_encode = false
+
+  part {
+    content_type = "text/cloud-config"
+    content = file("puppet-agent-cloud-init.yml")
+    filename = "puppet-agent-cloud-init.yml"
+  }
 }
 
 data "local_file" "ssh_public_key" {

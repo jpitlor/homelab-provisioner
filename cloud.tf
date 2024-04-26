@@ -56,10 +56,10 @@ resource "google_compute_instance" "vps" {
   zone         = "us-central1-a"
   tags         = [var.vps_tag]
   hostname = "vps.pitlor.dev"
-  metadata_startup_script = data.local_file.startup_script.content
 
   metadata = {
     "ssh-keys" = "${var.vm_username}:${data.local_file.ssh_public_key}"
+    "user-data" = data.cloudinit_config.install_puppet.rendered
   }
 
   boot_disk {
