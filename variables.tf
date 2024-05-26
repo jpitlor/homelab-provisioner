@@ -6,7 +6,6 @@ variable "cloudflare_api_token" {
 variable "vm_username" {
   description = "Username for VM user account"
   type = string
-  default = "jpitlor"
 }
 
 variable "vm_password" {
@@ -25,14 +24,14 @@ variable "vps_tag" {
   default     = "vps"
 }
 
-data "cloudinit_config" "install_puppet" {
+data "cloudinit_config" "install_ansible" {
   gzip = false
   base64_encode = false
 
   part {
     content_type = "text/cloud-config"
-    content = file("puppet-agent-cloud-init.yml")
-    filename = "puppet-agent-cloud-init.yml"
+    content = file("cloud-config.yml")
+    filename = "cloud-config.yml"
   }
 }
 

@@ -1,0 +1,12 @@
+#cloud-config
+
+write_files:
+  - owner: root:root
+    path: /etc/cron.d/ansible
+    content: @daily jpitlor ansible-pull -U https://github.com/jpitlor/homelab-configuration
+
+packages:
+  - ansible
+
+cc_runcmd:
+  - ansible-pull -U https://github.com/jpitlor/homelab-configuration
