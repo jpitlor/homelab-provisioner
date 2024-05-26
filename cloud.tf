@@ -1,5 +1,5 @@
 provider "google" {
-  project = "pitlor-vps"
+  project = var.gcp_project
 }
 
 provider "cloudflare" {
@@ -37,14 +37,14 @@ resource "google_compute_address" "vps_ip_address" {
 }
 
 resource "cloudflare_record" "root" {
-  zone_id = var.zone_id
+  zone_id = var.cloudflare_zone_id
   name    = "@"
   value   = google_compute_address.vps_ip_address.address
   type    = "A"
 }
 
 resource "cloudflare_record" "subdomain" {
-  zone_id = var.zone_id
+  zone_id = var.cloudflare_zone_id
   name    = "*"
   value   = google_compute_address.vps_ip_address.address
   type    = "A"
@@ -58,13 +58,12 @@ resource "google_compute_instance" "vps" {
   hostname = "vps.pitlor.dev"
 
   metadata = {
-    "ssh-keys" = "${var.vm_username}:${data.local_file.ssh_public_key}"
-    "user-data" = data.cloudinit_config.install_puppet.rendered
+    "user-data" = data.cloudinit_config.install_ansible.rendered
   }
 
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2204-lts"
+      image = "ubuntu-os-cloud/${var.gcp_ubuntu_version}"
     }
   }
 
