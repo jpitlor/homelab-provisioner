@@ -4,6 +4,11 @@ Terraform scripts to manage my Homelab
 
 # Prerequisites
 
+1. Authenticate with Google Cloud to provision cloud resources.
+The easiest way to do this is by installing [the CLI](https://cloud.google.com/sdk/docs/install).
+
+
+
 When creating cloud resources (literal or figurative cloud), 
 you need some prerequisites for Terraform to work correctly.
 
@@ -14,7 +19,6 @@ or laptops), Terraform is not needed, and you can skip this section
 
 - Google Cloud Platform account
     - Project ID
-    - Account credentials
 - Machine running Proxmox
     - URL
     - Account credentials

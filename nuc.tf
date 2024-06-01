@@ -22,7 +22,7 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_server_image" {
   url          = var.ubuntu_url
 }
 
-resource "proxmox_virtual_environment_vm" "docker_containers_vm" {
+resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   for_each = toset(["docker-containers", "vault", "dev-playground"])
 
   name      = each.key
