@@ -11,6 +11,6 @@ variable "bootstrap_1_gcp_region" {
 }
 
 variable "bootstrap_gcp_billing_account" {
-  default = "Billing account number"
+  description = "Billing account number"
   type = string
 }

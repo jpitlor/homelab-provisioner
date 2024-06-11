@@ -2,3 +2,4 @@
 **/terraform.tfvars
 bootstrap-2-bucket/credentials.json
 **/.terraform.lock.hcl
+**/.env
