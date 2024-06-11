@@ -25,13 +25,15 @@ resource "google_kms_crypto_key" "storage_bucket" {
 }
 
 resource "google_kms_crypto_key_iam_member" "service_account" {
+  for_each = toset(["service-720661707087@gs-project-accounts.iam.gserviceaccount.com", local.service_account.client_email])
+
   crypto_key_id = google_kms_crypto_key.storage_bucket.id
-  role          = "roles/cloudkms.admin"
-  member        = "serviceAccount:${local.service_account.client_email}"
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+  member        = "serviceAccount:${each.key}"
 }
 
 resource "google_storage_bucket" "terraform_state_bucket" {
-  name = "terraform-state"
+  name = "dev-pitlor-homelab-terraform-state"
   location = var.bootstrap_2_gcp_region
   project = var.bootstrap_2_gcp_project_id
 

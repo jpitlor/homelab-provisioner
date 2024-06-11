@@ -3,3 +3,4 @@
 bootstrap-2-bucket/credentials.json
 **/.terraform.lock.hcl
 **/.env
+**/terraform.tfstate.backup
