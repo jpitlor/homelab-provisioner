@@ -12,12 +12,11 @@ terraform {
 
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "2.25.0"
+      version = "4.34.0"
     }
   }
 
   backend "gcs" {
-    bucket = ""
-
+    bucket = "dev-pitlor-homelab-terraform-state"
   }
 }

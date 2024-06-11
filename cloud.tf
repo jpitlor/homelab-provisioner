@@ -1,5 +1,6 @@
 provider "google" {
   project = var.gcp_project
+  region = var.gcp_region
 }
 
 provider "cloudflare" {
@@ -13,6 +14,7 @@ resource "google_compute_network" "vps_network" {
 resource "google_compute_firewall" "vps_firewall" {
   name    = "vps-firewall"
   network = google_compute_network.vps_network.self_link
+  source_ranges = ["0.0.0.0/0"]
 
   allow {
     protocol = "icmp"
@@ -38,17 +40,19 @@ resource "google_compute_address" "vps_ip_address" {
 
 resource "cloudflare_record" "root" {
   zone_id = var.cloudflare_zone_id
-  name    = "@"
+  name    = "test" # @
   value   = google_compute_address.vps_ip_address.address
   type    = "A"
 }
 
 resource "cloudflare_record" "subdomain" {
   zone_id = var.cloudflare_zone_id
-  name    = "*"
+  name    = "*.test" # *
   value   = google_compute_address.vps_ip_address.address
   type    = "A"
 }
+
+# Minecraft srv record
 
 resource "google_compute_instance" "vps" {
   name         = "vps"

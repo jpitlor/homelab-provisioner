@@ -4,6 +4,12 @@ variable "gcp_project" {
   type = string
 }
 
+variable "gcp_region" {
+  description = "Region for VPS on GCP"
+  type = string
+  default = "us-central1"
+}
+
 variable "gcp_ubuntu_version" {
   description = "Ubuntu version to use for VPS"
   type = string
