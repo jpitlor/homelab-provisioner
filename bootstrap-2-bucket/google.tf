@@ -26,7 +26,7 @@ resource "google_kms_crypto_key" "storage_bucket" {
 
 resource "google_kms_crypto_key_iam_member" "service_account" {
   crypto_key_id = google_kms_crypto_key.storage_bucket.id
-  role          = "roles/cloudkms.cryptoKeyEncrypter"
+  role          = "roles/cloudkms.admin"
   member        = "serviceAccount:${local.service_account.client_email}"
 }
 
