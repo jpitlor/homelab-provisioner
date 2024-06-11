@@ -1,0 +1,7 @@
+gcp_project = "CHANGEME"
+cloudflare_api_token = "CHANGEME"
+cloudflare_zone_id = "CHANGEME"
+proxmox_endpoint = "CHANGEME"
+proxmox_password = "CHANGEME"
+proxmox_node_name = "CHANGEME"
+vm_username = "CHANGEME"
