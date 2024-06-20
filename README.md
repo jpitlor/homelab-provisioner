@@ -64,7 +64,27 @@ tofu apply
 
 TODO: Make this happen automatically in Gitea in the nuc
 
-# Provisioning Other Resources
+# Non-managed Resources
 
-TODO: Add options files (or otherwise) to provision resources that
-aren't created in Terraform
+## Windows
+
+First, copy the example unattend file:
+
+```shell
+cp autounattend.example.xml autounattend.xml
+```
+
+Then, look for `CHANGEME-PASSWORD` and replace it with your actual password.
+Format a USB drive with a [Windows ISO](https://www.microsoft.com/software-download/windows11),
+then add `autounattend.xml` to the flash drive.
+
+Plug in, turn on, have fun.
+
+## Linux
+
+
+
+## MacOS 
+
+Why are you even reading this repo? Just go do things the Apple way and
+experience their beautiful installer

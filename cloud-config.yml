@@ -1,12 +1,21 @@
 #cloud-config
 
+# TODO - add username/tz/etc information
+# https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/creating-autoinstall-configuration.html
+
 write_files:
   - owner: root:root
     path: /etc/cron.d/ansible
-    content: @daily jpitlor ansible-pull -U https://github.com/jpitlor/homelab-configuration
+    content: "@daily jpitlor ansible-pull -U https://github.com/jpitlor/homelab-configuration"
 
+package_update: true
+package_upgrade: true
 packages:
-  - ansible
+  - git
+  - python3-pip
 
-cc_runcmd:
-  - ansible-pull -U https://github.com/jpitlor/homelab-configuration
+ansible:
+  install_method: pip
+  pull:
+    url: "https://github.com/jpitlor/homelab-configuration.git"
+    playbook_name: ubuntu.yml
