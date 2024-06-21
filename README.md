@@ -75,14 +75,17 @@ cp autounattend.example.xml autounattend.xml
 ```
 
 Then, look for `CHANGEME-PASSWORD` and replace it with your actual password.
-Format a USB drive with a [Windows ISO](https://www.microsoft.com/software-download/windows11),
+Optionally, look for `fanny-brice` and replace it with the computer name
+you want. Format a USB drive with a [Windows ISO](https://www.microsoft.com/software-download/windows11),
 then add `autounattend.xml` to the flash drive.
 
 Plug in, turn on, have fun.
 
 ## Linux
 
-
+You should be able to use the `cloud-config.yml` file to configure a Linux
+PC, but I'm not researching exact instructions since I don't have any non-server
+Linux machines.
 
 ## MacOS 
 
