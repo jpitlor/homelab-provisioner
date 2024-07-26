@@ -6,3 +6,5 @@ write_files:
   - content: TrustedUserCAKeys /etc/ssh/pitlor_ca.pub
     path: /etc/ssh/sshd_config
     append: true
+runcmd:
+  - [systemctl, restart, ssh]
