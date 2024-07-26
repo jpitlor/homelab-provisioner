@@ -52,7 +52,22 @@ resource "cloudflare_record" "subdomain" {
   type    = "A"
 }
 
-# Minecraft srv record
+# TODO - getting errors for some reason
+# resource "cloudflare_record" "minecraft" {
+#   zone_id = var.cloudflare_zone_id
+#   name    = "_minecraft._tcp"
+#   type    = "SRV"
+#
+#   data {
+#     service  = "_minecraft"
+#     proto    = "_tls"
+#     name     = "minecraft-srv"
+#     priority = 0
+#     weight   = 0
+#     port     = 25565
+#     target   = "minecraft.pitlor.dev"
+#   }
+# }
 
 resource "google_compute_instance" "vps" {
   name         = "vps"
@@ -62,7 +77,7 @@ resource "google_compute_instance" "vps" {
   hostname = "vps.pitlor.dev"
 
   metadata = {
-    "user-data" = data.cloudinit_config.install_ansible.rendered
+    "user-data" = data.cloudinit_config.ssh_ca.rendered
   }
 
   boot_disk {

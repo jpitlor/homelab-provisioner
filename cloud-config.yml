@@ -1,21 +1,8 @@
 #cloud-config
 
-# TODO - add username/tz/etc information
-# https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/creating-autoinstall-configuration.html
-
 write_files:
-  - owner: root:root
-    path: /etc/cron.d/ansible
-    content: "@daily jpitlor ansible-pull -U https://github.com/jpitlor/homelab-configuration"
-
-package_update: true
-package_upgrade: true
-packages:
-  - git
-  - python3-pip
-
-ansible:
-  install_method: pip
-  pull:
-    url: "https://github.com/jpitlor/homelab-configuration.git"
-    playbook_name: ubuntu.yml
+  - content: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIDJCayc2C1SwMBpEX95u7qQ3SRgSihwNvEosoEicVYc jpitlor@Jordans-Air
+    path: /etc/ssh/pitlor_ca.pub
+  - content: TrustedUserCAKeys /etc/ssh/pitlor_ca.pub
+    path: /etc/ssh/sshd_config
+    append: true

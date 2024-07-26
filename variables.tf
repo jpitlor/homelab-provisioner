@@ -91,7 +91,7 @@ variable "vm_username" {
   type = string
 }
 
-data "cloudinit_config" "install_ansible" {
+data "cloudinit_config" "ssh_ca" {
   gzip = false
   base64_encode = false
 
