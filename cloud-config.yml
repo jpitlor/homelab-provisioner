@@ -1,10 +1,15 @@
 #cloud-config
 
+users:
+  - name: jpitlor
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
 write_files:
   - content: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIDJCayc2C1SwMBpEX95u7qQ3SRgSihwNvEosoEicVYc jpitlor@Jordans-Air
     path: /etc/ssh/pitlor_ca.pub
   - content: TrustedUserCAKeys /etc/ssh/pitlor_ca.pub
     path: /etc/ssh/sshd_config
     append: true
+
 runcmd:
-  - [systemctl, restart, ssh]
+  - systemctl restart ssh
