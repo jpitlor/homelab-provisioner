@@ -9,3 +9,8 @@ variable "bootstrap_2_gcp_region" {
   type = string
   default = "us-central1"
 }
+
+variable "bootstrap_2_state_encryption_passphrase" {
+  description = "State encryption passphrase"
+  type = string
+}

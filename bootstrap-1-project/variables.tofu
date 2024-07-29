@@ -14,3 +14,8 @@ variable "bootstrap_gcp_billing_account" {
   description = "Billing account number"
   type = string
 }
+
+variable "bootstrap_1_state_encryption_passphrase" {
+  description = "State encryption passphrase"
+  type = string
+}

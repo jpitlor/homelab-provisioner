@@ -7,6 +7,10 @@ terraform {
   }
 
   encryption {
+    key_provider "pbkdf2" "my_key" {
+      passphrase = var.bootstrap_2_state_encryption_passphrase
+    }
+
     method "aes_gcm" "state" {
       keys = key_provider.pbkdf2.my_key
     }
