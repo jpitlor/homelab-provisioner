@@ -61,10 +61,16 @@ variable "proxmox_node_name" {
   type = string
 }
 
-variable "proxmox_datastore" {
-  description = "Datastore for system-level files"
+variable "proxmox_iso_datastore" {
+  description = "Datastore for ISOs"
   type = string
   default = "local"
+}
+
+variable "proxmox_snippet_datastore" {
+  description = "Datastore for snippets"
+  type = string
+  default = "snippets"
 }
 
 variable "proxmox_disk_datastore" {
@@ -84,11 +90,6 @@ variable "ubuntu_url" {
   description = "URL of the latest Ubuntu Server release"
   type = string
   default = "https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-live-server-amd64.iso"
-}
-
-variable "vm_username" {
-  description = "Username for VM user account"
-  type = string
 }
 
 data "cloudinit_config" "ssh_ca" {
