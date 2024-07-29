@@ -12,7 +12,7 @@ resource "time_sleep" "wait_project_create" {
 }
 
 resource "google_project_service" "apis" {
-  for_each = toset(["cloudkms", "iam", "compute"])
+  for_each = toset(["calendar-json", "maps-embed-backend", "cloudkms", "iam", "compute"])
 
   depends_on = [time_sleep.wait_project_create]
   project = google_project.homelab.project_id
@@ -37,7 +37,8 @@ resource "google_project_iam_custom_role" "terraform" {
     "cloudkms.cryptoKeys.setIamPolicy",
     "storage.buckets.create",
     "storage.buckets.get",
-    "storage.buckets.delete"
+    "storage.buckets.delete",
+    "storage.objects.list"
   ]
 }
 
