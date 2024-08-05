@@ -38,7 +38,17 @@ resource "google_project_iam_custom_role" "terraform" {
     "storage.buckets.create",
     "storage.buckets.get",
     "storage.buckets.delete",
-    "storage.objects.list"
+    "storage.objects.list",
+    "storage.objects.delete",
+    "compute.firewalls.get",
+    "compute.firewalls.delete",
+    "compute.instances.get",
+    "compute.instances.delete",
+    "compute.networks.get",
+    "compute.networks.updatePolicy",
+    "compute.networks.delete",
+    "compute.addresses.get",
+    "compute.addresses.delete",
   ]
 }
 
@@ -53,7 +63,8 @@ resource "google_service_account_key" "homelab" {
 }
 
 resource "local_file" "service_account_json" {
-  content = base64decode(google_service_account_key.homelab.private_key)
-  filename = "../bootstrap-2-bucket/credentials.json"
-}
+  for_each = toset(["../bootstrap-2-bucket", ".."])
 
+  content = base64decode(google_service_account_key.homelab.private_key)
+  filename = "${each.key}/credentials.json"
+}

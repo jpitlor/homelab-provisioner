@@ -1,10 +1,19 @@
 provider "proxmox" {
-  endpoint = var.proxmox_endpoint
+  endpoint = "https://${var.proxmox_endpoint}:8006"
   username = "${var.proxmox_username}@${var.proxmox_user_domain}"
   password = var.proxmox_password
 
   # TODO: This can be removed for prod, I assume?
   insecure = true
+
+  ssh {
+    agent = true
+
+    node {
+      name    = "nuc"
+      address = var.proxmox_endpoint
+    }
+  }
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
@@ -47,7 +56,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
 
 resource "null_resource" "haos" {
   provisioner "local-exec" {
-    command = "wget -O haos.img.xz ${var.haos_url} && unxz haos.img.xz"
+    command = "if [ ! -f haos.img ]; then; wget -O haos.img.xz ${var.haos_url} && unxz haos.img.xz; fi"
   }
 }
 

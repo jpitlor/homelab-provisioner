@@ -1,6 +1,8 @@
 **/.terraform/*
 terraform.tfvars
 bootstrap-2-bucket/credentials.json
+credentials.json
 .terraform.lock.hcl
 .env
 terraform.tfstate.backup
+haos.img

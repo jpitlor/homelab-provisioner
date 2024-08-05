@@ -6,6 +6,8 @@ provider "registry.opentofu.org/bpg/proxmox" {
   constraints = "0.53.1"
   hashes = [
     "h1:MkkMFotq+rW2sdVlqLk0Uu5NaIvMtsHBT5RJDvnM8Hs=",
+    "h1:UnYt0oHwp5EObC8aHKClJY9uv8NFHNE72vUXO+F4C1g=",
+    "h1:yv0eIIhzrcd5GgQvNq2xigcTx1ey4lOOKcNZ8BJlL7I=",
     "zh:0afa2f8a6aab79973ce792001d5a479a596ed81cc4c44b0d60bcef9dfee093c7",
     "zh:0e8a2b62fa0e0e5e83420b391d78bd8f4d7fba6d2df52787c4c9469508642252",
     "zh:210a672e445d238538109f2894294199438b776ed89b1a8495d83368811e91e0",
@@ -28,6 +30,8 @@ provider "registry.opentofu.org/cloudflare/cloudflare" {
   version     = "4.34.0"
   constraints = "4.34.0"
   hashes = [
+    "h1:7vluN2wmw8D9nI11YwTgoGv3hGDXlkt8xqQ4L/JABeQ=",
+    "h1:J36dda2K42/oTfHuZ4jKkW5+nI6BTWFRUvo60P17NJg=",
     "h1:TKxunXCiS/z105sN/kBNFwU6tIKD67JKJ3ZKjwzoCuI=",
     "zh:02aa46743c1585ada8faa7db23af68ea614053a506f88f05d1090ff5e0e68076",
     "zh:1e1a545e83e6457a0e15357b23139bc288fb4fbd5e9a5ddfedc95a6a0216b08c",
@@ -51,6 +55,8 @@ provider "registry.opentofu.org/hashicorp/cloudinit" {
   version = "2.3.4"
   hashes = [
     "h1:9hqaKDDNr5gQaFbE3kyZ+q7aIVs5dXgACFbcqBLwnSI=",
+    "h1:EbYcgQMF07H8HHsQJyKH9x+j7SVBbS6k55YBvwo0VX0=",
+    "h1:Y0kCXWjX7Oz9kwAKpYFXWRQVYFrOMvZYd/OkIUizLik=",
     "zh:316777a45891cb7dd987673fc84e60190f7d416d437287413f97abb3a2374647",
     "zh:31a9f544d7cee4f4241898540758dd4b7273b2f4468ac1821fdd2cf9c7f73295",
     "zh:48c068b8cafdae710ca68485463e1c514cfd2dc1e7ed744a5e47421f97276574",
@@ -68,7 +74,9 @@ provider "registry.opentofu.org/hashicorp/google" {
   version     = "4.51.0"
   constraints = "4.51.0"
   hashes = [
+    "h1:0L/gT4h6C2eJQ4uQ3BsECftZV4Bm9D1ILFusOZkESEU=",
     "h1:0sIqMIYPu493c4CMPq/xbxJwGdb4wMOR3a4RVJe37wQ=",
+    "h1:tHAUE3nDkD6BvnzuYhw465MALiHr+2aa+0HDEJAOoTA=",
     "zh:3107d497d949fcd6ec59d7941607a863ad246e7b8d4a620dd41b3800ba9ab3bc",
     "zh:3af96732cc0f63a420be6c42cd01d0c2d97ad8e80b4acef424f7fe1b429aec9b",
     "zh:497cb0ebbb2b19eb9d71a724a414243f217f9b5ea2ce63803818ae829cab924b",
@@ -85,7 +93,9 @@ provider "registry.opentofu.org/hashicorp/google" {
 provider "registry.opentofu.org/hashicorp/null" {
   version = "3.2.2"
   hashes = [
+    "h1:VGyIk6jYf5QJIS4qvU8uhXGq+HBHjNHTBiuEZOjYsOE=",
     "h1:sU0t6ANQ4IfEwZbbBmcNeOCg2CDCViVb7L7QVfIHrCs=",
+    "h1:xN1tSeF/rUBfaddk/AVqk4i65z/MMM9uVZWd2cWCCH0=",
     "zh:00e5877d19fb1c1d8c4b3536334a46a5c86f57146fd115c7b7b4b5d2bf2de86d",
     "zh:1755c2999e73e4d73f9de670c145c9a0dc5a373802799dff06a0e9c161354163",
     "zh:2b29d706353bc9c4edda6a2946af3322abe94372ffb421d81fa176f1e57e33be",
