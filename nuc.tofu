@@ -10,7 +10,7 @@ provider "proxmox" {
     agent = true
 
     node {
-      name    = "nuc"
+      name    = var.proxmox_node_name
       address = var.proxmox_endpoint
     }
   }
@@ -50,7 +50,19 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
     interface    = "virtio0"
     iothread     = true
     discard      = "on"
-    size         = 20
+    size         = 64
+  }
+
+  network_device {
+    bridge = "vmbr0"
+  }
+
+  cpu {
+    cores = each.key == "test-docker-containers" ? 6 : 2
+  }
+
+  memory {
+    dedicated = each.key == "test-docker-containers" ? 12288 : 2048
   }
 }
 
@@ -79,11 +91,23 @@ resource "proxmox_virtual_environment_vm" "haos_vm" {
     interface    = "virtio0"
     iothread     = true
     discard      = "on"
-    size         = 20
+    size         = 64
   }
 
   usb {
     # This is a Sonoff ZigBee dongle
     host = "10c4:ea60"
+  }
+
+  network_device {
+    bridge = "vmbr0"
+  }
+
+  cpu {
+    cores = 2
+  }
+
+  memory {
+    dedicated = 3072
   }
 }
