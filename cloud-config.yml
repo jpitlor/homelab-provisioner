@@ -1,5 +1,8 @@
 #cloud-config
 
+packages:
+  - qemu-guest-agent
+
 users:
   - name: jpitlor
     sudo: ALL=(ALL) NOPASSWD:ALL
