@@ -1,7 +1,7 @@
 variable "bootstrap_2_gcp_project_id" {
   description = "Project name for GCP"
   type = string
-  default = "dev-pitlor-test-homelab"
+  default = "dev-pitlor-homelab"
 }
 
 variable "bootstrap_2_gcp_region" {
