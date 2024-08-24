@@ -69,11 +69,13 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
 
 resource "null_resource" "haos" {
   provisioner "local-exec" {
-    command = "if [ ! -f haos.img ]; then; wget -O haos.img.xz ${var.haos_url} && unxz haos.img.xz; fi"
+    command = "if [ ! -f haos.img ]; then wget -O haos.img.xz ${var.haos_url} && unxz haos.img.xz; fi"
   }
 }
 
 resource "proxmox_virtual_environment_file" "haos_image" {
+  depends_on = [null_resource.haos]
+
   content_type = "iso"
   datastore_id = var.proxmox_iso_datastore
   node_name    = var.proxmox_node_name
@@ -83,7 +85,7 @@ resource "proxmox_virtual_environment_file" "haos_image" {
 }
 
 resource "proxmox_virtual_environment_vm" "haos_vm" {
-  name      = "home-assistant"
+  name = "home-assistant-test"
   tags = ["home-assistant"]
   node_name = var.proxmox_node_name
 

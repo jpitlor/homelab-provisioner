@@ -53,22 +53,21 @@ resource "cloudflare_record" "subdomain" {
   type    = "A"
 }
 
-# TODO - getting errors for some reason
-# resource "cloudflare_record" "minecraft" {
-#   zone_id = var.cloudflare_zone_id
-#   name    = "_minecraft._tcp"
-#   type    = "SRV"
-#
-#   data {
-#     service  = "_minecraft"
-#     proto    = "_tls"
-#     name     = "minecraft-srv"
-#     priority = 0
-#     weight   = 0
-#     port     = 25565
-#     target   = "minecraft.pitlor.dev"
-#   }
-# }
+resource "cloudflare_record" "minecraft" {
+  zone_id = var.cloudflare_zone_id
+  name    = "_minecraft._tcp"
+  type    = "SRV"
+
+  data {
+    service  = "_minecraft"
+    proto    = "_tls"
+    name     = "minecraft-srv"
+    priority = 0
+    weight   = 0
+    port     = 25565
+    target   = "minecraft.pitlor.dev"
+  }
+}
 
 resource "google_compute_instance" "vps" {
   name         = "vps"

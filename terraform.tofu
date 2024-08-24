@@ -17,6 +17,6 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "dev-pitlor-homelab-terraform-state"
+    bucket = "dev-pitlor-homelab-opentofu-state"
   }
 }
