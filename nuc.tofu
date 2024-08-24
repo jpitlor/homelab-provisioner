@@ -38,6 +38,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   for_each = toset(["test-docker-containers", "test-vault", "test-dev-playground"])
 
   name      = each.key
+  tags = [each.key]
   node_name = var.proxmox_node_name
 
   initialization {
@@ -83,6 +84,7 @@ resource "proxmox_virtual_environment_file" "haos_image" {
 
 resource "proxmox_virtual_environment_vm" "haos_vm" {
   name      = "home-assistant"
+  tags = ["home-assistant"]
   node_name = var.proxmox_node_name
 
   disk {
