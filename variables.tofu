@@ -10,12 +10,6 @@ variable "gcp_region" {
   default = "us-central1"
 }
 
-variable "vps_tag" {
-  description = "Tag for the VM instance"
-  type        = string
-  default     = "vps"
-}
-
 # Cloudflare
 variable "cloudflare_api_token" {
   description = "API Token for Cloudflare"

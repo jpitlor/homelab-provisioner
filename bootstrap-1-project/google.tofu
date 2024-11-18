@@ -69,7 +69,9 @@ resource "google_project_iam_custom_role" "terraform" {
     "compute.addresses.create",
     "compute.addresses.delete",
     "compute.zones.get",
-    "resourcemanager.projects.get"
+    "resourcemanager.projects.get",
+    "compute.images.get",
+    "compute.images.useReadOnly"
   ]
 }
 
