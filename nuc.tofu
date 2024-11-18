@@ -1,117 +1,113 @@
 provider "proxmox" {
-  endpoint = "https://${var.proxmox_endpoint}:8006"
-  username = "${var.proxmox_username}@${var.proxmox_user_domain}"
-  password = var.proxmox_password
+  pm_api_url = "https://${var.proxmox_endpoint}:8006/api2/json"
+  pm_user = "${var.pm_user}@${var.pm_realm}"
+  pm_password = var.pm_password
 
   # TODO: This can be removed for prod, I assume?
-  insecure = true
+  pm_tls_insecure = true
+}
 
-  ssh {
-    agent = true
+resource "proxmox_vm_qemu" "docker_containers_vm" {
+  name = "docker-containers-test"
+  clone = "docker-containers-template"
+  tags = "docker_containers"
+  target_node = var.proxmox_node_name
 
-    node {
-      name    = var.proxmox_node_name
-      address = var.proxmox_endpoint
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          storage = var.proxmox_disk_datastore
+          size = 64
+        }
+      }
     }
   }
-}
 
-resource "proxmox_virtual_environment_file" "cloud_config" {
-  content_type = "snippets"
-  datastore_id = var.proxmox_snippet_datastore
-  node_name    = var.proxmox_node_name
-
-  source_raw {
-    data = data.cloudinit_config.ssh_ca.rendered
-    file_name = "cloud-config.yaml"
-  }
-}
-
-resource "proxmox_virtual_environment_download_file" "ubuntu_server_image" {
-  content_type = "iso"
-  datastore_id = var.proxmox_iso_datastore
-  node_name    = var.proxmox_node_name
-  url          = var.ubuntu_url
-}
-
-resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  for_each = toset(["test-docker-containers", "test-vault", "test-dev-playground"])
-
-  name      = each.key
-  tags = [each.key]
-  node_name = var.proxmox_node_name
-
-  initialization {
-    user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
-  }
-
-  disk {
-    datastore_id = var.proxmox_disk_datastore
-    file_id      = proxmox_virtual_environment_download_file.ubuntu_server_image.id
-    interface    = "virtio0"
-    iothread     = true
-    discard      = "on"
-    size         = 64
-  }
-
-  network_device {
+  network {
+    model = "virtio"
     bridge = "vmbr0"
   }
 
-  cpu {
-    cores = each.key == "test-docker-containers" ? 6 : 2
-  }
-
-  memory {
-    dedicated = each.key == "test-docker-containers" ? 12288 : 2048
-  }
+  sockets = 4
+  memory = 12288
 }
 
-resource "null_resource" "haos" {
-  provisioner "local-exec" {
-    command = "if [ ! -f haos.img ]; then wget -O haos.img.xz ${var.haos_url} && unxz haos.img.xz; fi"
-  }
-}
+resource "proxmox_vm_qemu" "dev_playground_vm" {
+  name = "dev-playground"
+  tags = "dev_playground"
+  clone = "dev-playground-template"
+  target_node = var.proxmox_node_name
 
-resource "proxmox_virtual_environment_file" "haos_image" {
-  depends_on = [null_resource.haos]
-
-  content_type = "iso"
-  datastore_id = var.proxmox_iso_datastore
-  node_name    = var.proxmox_node_name
-  source_file {
-    path = "haos.img"
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "haos_vm" {
-  name = "home-assistant-test"
-  tags = ["home-assistant"]
-  node_name = var.proxmox_node_name
-
-  disk {
-    datastore_id = var.proxmox_disk_datastore
-    file_id      = proxmox_virtual_environment_file.haos_image.id
-    interface    = "virtio0"
-    iothread     = true
-    discard      = "on"
-    size         = 64
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          storage = var.proxmox_disk_datastore
+          size = 64
+        }
+      }
+    }
   }
 
-  usb {
-    # This is a Sonoff ZigBee dongle
-    host = "10c4:ea60"
-  }
-
-  network_device {
+  network {
+    model = "virtio"
     bridge = "vmbr0"
   }
 
-  cpu {
-    cores = 2
+  sockets = 2
+  memory = 2048
+}
+
+resource "proxmox_vm_qemu" "vault_vm" {
+  name = "vault"
+  tags = "vault"
+  clone = "vault-template"
+  target_node = var.proxmox_node_name
+  vm_state = "stopped"
+
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          storage = var.proxmox_disk_datastore
+          size = 64
+        }
+      }
+    }
   }
 
-  memory {
-    dedicated = 3072
-  }
+  sockets = 2
+  memory = 2048
 }
+
+# resource "proxmox_vm_qemu" "home_assistant_vm" {
+#   name = "home-assistant"
+#   tags = "home_assistant"
+#   clone = "home-assistant-template"
+#   target_node = var.proxmox_node_name
+#
+#   disks {
+#    scsi {
+#      scsi0 {
+#        disk {
+#          storage = var.proxmox_disk_datastore
+#          size = 64
+#        }
+#      }
+#    }
+#  }
+#
+#   usb {
+#     # This is a Sonoff ZigBee dongle
+#     host = "10c4:ea60"
+#   }
+#
+#   network {
+#     model = "virtio"
+#     bridge = "vmbr0"
+#   }
+#
+#   sockets = 2
+#   memory = 3072
+# }

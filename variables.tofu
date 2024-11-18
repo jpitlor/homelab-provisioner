@@ -10,12 +10,6 @@ variable "gcp_region" {
   default = "us-central1"
 }
 
-variable "gcp_ubuntu_version" {
-  description = "Ubuntu version to use for VPS"
-  type = string
-  default = "ubuntu-2204-lts"
-}
-
 variable "vps_tag" {
   description = "Tag for the VM instance"
   type        = string
@@ -39,19 +33,18 @@ variable "proxmox_endpoint" {
   type = string
 }
 
-variable "proxmox_username" {
+variable "pm_user" {
   description = "Username for Proxmox"
   type = string
-  default = "root"
 }
 
-variable "proxmox_user_domain" {
+variable "pm_realm" {
   description = "Domain for Proxmox user"
   type = string
   default = "pam"
 }
 
-variable "proxmox_password" {
+variable "pm_password" {
   description = "Password for Proxmox"
   type = string
 }
@@ -78,28 +71,3 @@ variable "proxmox_disk_datastore" {
   type = string
   default = "local-lvm"
 }
-
-# Created Resources
-variable "haos_url" {
-  description = "URL of the latest HAOS release"
-  type = string
-  default = "https://github.com/home-assistant/operating-system/releases/download/12.2/haos_generic-x86-64-12.2.img.xz"
-}
-
-variable "ubuntu_url" {
-  description = "URL of the latest Ubuntu Server release"
-  type = string
-  default = "https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-live-server-amd64.iso"
-}
-
-data "cloudinit_config" "ssh_ca" {
-  gzip = false
-  base64_encode = false
-
-  part {
-    content_type = "text/cloud-config"
-    content = file("cloud-config.yml")
-    filename = "cloud-config.yml"
-  }
-}
-

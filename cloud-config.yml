@@ -1,11 +1,18 @@
 #cloud-config
-
-packages:
-  - qemu-guest-agent
-
-users:
-  - name: jpitlor
-    sudo: ALL=(ALL) NOPASSWD:ALL
+autoinstall:
+  identity:
+    hostname: CHANGEME
+    username: jpitlor
+    realname: Jordan Pitlor
+    password: $2y$10$oRSi1uOEdytqjo1QdExChONSuA16GlYI..5VVk7x3TQWMkfnbSeeS
+  ssh:
+    allow-pw: false
+    authorized_keys: []
+    install-server: true
+  storage:
+    layout:
+      name: lvm
+  version: 1
 
 write_files:
   - content: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIDJCayc2C1SwMBpEX95u7qQ3SRgSihwNvEosoEicVYc jpitlor@Jordans-Air
