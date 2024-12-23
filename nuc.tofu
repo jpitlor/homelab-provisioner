@@ -27,10 +27,12 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
   network {
     model = "virtio"
     bridge = "vmbr0"
+    macaddr = "f6:13:a0:be:25:a1"
   }
 
   sockets = 4
   memory = 12288
+  agent = 1
 }
 
 resource "proxmox_vm_qemu" "dev_playground_vm" {
@@ -57,6 +59,7 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
 
   sockets = 2
   memory = 2048
+  agent = 1
 }
 
 resource "proxmox_vm_qemu" "vault_vm" {
@@ -79,6 +82,7 @@ resource "proxmox_vm_qemu" "vault_vm" {
 
   sockets = 2
   memory = 2048
+  agent = 1
 }
 
 # resource "proxmox_vm_qemu" "home_assistant_vm" {

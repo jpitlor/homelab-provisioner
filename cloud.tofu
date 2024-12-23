@@ -27,8 +27,14 @@ resource "google_compute_firewall" "vps_firewall" {
       "22",    # SSH
       "80",    # HTTP
       "443",   # HTTPS
-      "25565", # Minecraft
-      "1194"   # OpenVPN
+      # "25565", # Minecraft
+    ]
+  }
+
+  allow {
+    protocol = "udp"
+    ports = [
+      "1194" # OpenVPN
     ]
   }
 

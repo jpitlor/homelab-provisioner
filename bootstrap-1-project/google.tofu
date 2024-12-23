@@ -53,6 +53,7 @@ resource "google_project_iam_custom_role" "terraform" {
     "compute.firewalls.get",
     "compute.firewalls.delete",
     "compute.firewalls.create",
+    "compute.firewalls.update",
     "compute.instances.get",
     "compute.instances.delete",
     "compute.instances.create",
