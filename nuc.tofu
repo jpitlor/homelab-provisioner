@@ -62,29 +62,6 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
   agent = 1
 }
 
-resource "proxmox_vm_qemu" "vault_vm" {
-  name = "vault"
-  tags = "vault"
-  clone = "vault-template"
-  target_node = var.proxmox_node_name
-  vm_state = "stopped"
-
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          storage = var.proxmox_disk_datastore
-          size = 64
-        }
-      }
-    }
-  }
-
-  sockets = 2
-  memory = 2048
-  agent = 1
-}
-
 # resource "proxmox_vm_qemu" "home_assistant_vm" {
 #   name = "home-assistant"
 #   tags = "home_assistant"
