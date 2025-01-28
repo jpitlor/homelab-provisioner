@@ -1,6 +1,6 @@
 # Homelab Provisioner
 
-Terraform scripts to manage my Homelab
+Though my homelab is relatively small, putting all the VMs and cloud infrastructure required to bootstrap it here give me peace of mind
 
 # Prerequisites
 
