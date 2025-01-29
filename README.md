@@ -1,6 +1,6 @@
 # Homelab Provisioner
 
-Though my homelab is relatively small, putting all the VMs and cloud infrastructure required to bootstrap it here give me peace of mind
+These are OpenTofu files that can provision my GCP project, DNS records, and Proxmox VMs
 
 # Prerequisites
 
