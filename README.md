@@ -1,6 +1,6 @@
 # Homelab Provisioner
 
-Terraform scripts to manage my Homelab
+These are OpenTofu files that can provision my GCP project, DNS records, and Proxmox VMs
 
 # Prerequisites
 

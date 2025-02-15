@@ -20,7 +20,10 @@ resource "google_kms_key_ring" "storage_bucket" {
 resource "google_kms_crypto_key" "storage_bucket" {
   name            = "storage-encryption-key"
   key_ring        = google_kms_key_ring.storage_bucket.id
-  rotation_period = "86400s"
+
+  # Only rotate every 15 days - more keys = more cost, so having only two keys active at any time (they get destroyed every 30 days) will help keep costs down
+  # TODO: Add a Lambda function that automatically re-encrypts the state so it doesn't become inaccessible
+  rotation_period = "1296000s"
 
   lifecycle {
     prevent_destroy = true
