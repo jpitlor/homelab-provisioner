@@ -95,3 +95,18 @@ resource "google_compute_instance" "vps" {
     }
   }
 }
+
+resource "google_artifact_registry_repository" "chart-repository" {
+  location      = "us-central1"
+  repository_id = "dev-pitlor-homelab-chart-repository"
+  description   = "Helm Chart repository"
+  format        = "DOCKER"
+}
+
+resource "google_artifact_registry_repository_iam_member" "member" {
+  project = google_artifact_registry_repository.chart-repository.project
+  location = google_artifact_registry_repository.chart-repository.location
+  repository = google_artifact_registry_repository.chart-repository.name
+  role = "roles/artifactregistry.admin"
+  member = "user:jpitlor@gmail.com"
+}
