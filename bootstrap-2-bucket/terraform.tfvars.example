@@ -1,1 +1,2 @@
 bootstrap_2_state_encryption_passphrase = "CHANGEME"
+bootstrap_2_gcp_project_id = "CHANGEME"
