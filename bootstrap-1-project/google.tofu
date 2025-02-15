@@ -18,7 +18,8 @@ resource "google_project_service" "apis" {
     "cloudkms",
     "iam",
     "compute",
-    "cloudresourcemanager"
+    "cloudresourcemanager",
+    "artifactregistry"
   ])
 
   depends_on = [time_sleep.wait_project_create]
