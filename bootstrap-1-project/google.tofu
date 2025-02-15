@@ -40,6 +40,7 @@ resource "google_project_iam_custom_role" "terraform" {
     "cloudkms.keyRings.get",
     "cloudkms.keyRings.create",
     "cloudkms.cryptoKeys.get",
+    "cloudkms.cryptoKeys.update",
     "cloudkms.cryptoKeys.create",
     "cloudkms.cryptoKeys.getIamPolicy",
     "cloudkms.cryptoKeys.setIamPolicy",
