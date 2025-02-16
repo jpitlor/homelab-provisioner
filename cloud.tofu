@@ -106,7 +106,7 @@ resource "google_artifact_registry_repository" "chart-repository" {
 resource "google_artifact_registry_repository_iam_member" "member" {
   project = google_artifact_registry_repository.chart-repository.project
   location = google_artifact_registry_repository.chart-repository.location
-  repository = google_artifact_registry_repository.chart-repository.name
+  repository = google_artifact_registry_repository.chart-repository.repository_id
   role = "roles/artifactregistry.admin"
   member = "user:jpitlor@gmail.com"
 }
