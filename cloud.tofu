@@ -102,9 +102,14 @@ resource "google_compute_instance" "vps" {
 
 resource "google_artifact_registry_repository" "chart-repository" {
   location      = "us-central1"
-  repository_id = "dev-pitlor-homelab-chart-repository"
+  repository_id = "homelab-chart"
   description   = "Helm Chart repository"
   format        = "DOCKER"
+}
+
+resource "time_sleep" "wait_repository_create" {
+  depends_on = [google_artifact_registry_repository.chart-repository]
+  create_duration = "10s"
 }
 
 resource "google_artifact_registry_repository_iam_binding" "binding" {
@@ -116,4 +121,6 @@ resource "google_artifact_registry_repository_iam_binding" "binding" {
     "user:jpitlor@gmail.com",
     "serviceAccount:${local.service_account.client_email}",
   ]
+
+  depends_on = [time_sleep.wait_repository_create]
 }
