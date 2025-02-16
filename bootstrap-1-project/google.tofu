@@ -78,7 +78,9 @@ resource "google_project_iam_custom_role" "terraform" {
     "artifactregistry.repositories.create",
     "artifactregistry.repositories.list",
     "artifactregistry.repositories.get",
-    "artifactregistry.repositories.delete"
+    "artifactregistry.repositories.delete",
+    "artifactregistry.repositories.getIamPolicy",
+    "artifactregistry.repositories.setIamPolicy",
   ]
 }
 
