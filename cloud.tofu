@@ -8,6 +8,10 @@ provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
 
+locals {
+  service_account = jsondecode(file("./credentials.json"))
+}
+
 resource "google_compute_network" "vps_network" {
   name = "vps-network"
 }
@@ -103,10 +107,13 @@ resource "google_artifact_registry_repository" "chart-repository" {
   format        = "DOCKER"
 }
 
-resource "google_artifact_registry_repository_iam_member" "member" {
+resource "google_artifact_registry_repository_iam_binding" "binding" {
   project = google_artifact_registry_repository.chart-repository.project
   location = google_artifact_registry_repository.chart-repository.location
   repository = google_artifact_registry_repository.chart-repository.repository_id
   role = "roles/artifactregistry.admin"
-  member = "user:jpitlor@gmail.com"
+  members = [
+    "user:jpitlor@gmail.com",
+    "serviceAccount:${local.service_account.client_email}",
+  ]
 }
