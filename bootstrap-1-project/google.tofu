@@ -75,7 +75,10 @@ resource "google_project_iam_custom_role" "terraform" {
     "resourcemanager.projects.get",
     "compute.images.get",
     "compute.images.useReadOnly",
-    "artifactregistry.repositories.create"
+    "artifactregistry.repositories.create",
+    "artifactregistry.repositories.list",
+    "artifactregistry.repositories.get",
+    "artifactregistry.repositories.delete"
   ]
 }
 
