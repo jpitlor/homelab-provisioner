@@ -75,5 +75,6 @@ output "access_key" {
 }
 
 output "secret_key" {
-  value = google_storage_hmac_key.storage.secret
+  value     = google_storage_hmac_key.storage.secret
+  sensitive = true
 }
