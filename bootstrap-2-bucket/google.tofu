@@ -54,3 +54,14 @@ resource "google_storage_bucket" "opentofu_state_bucket" {
     default_kms_key_name = google_kms_crypto_key.storage_bucket.id
   }
 }
+
+resource "google_storage_bucket" "backup_bucket" {
+  name = "dev-pitlor-homelab-nas-backups"
+  location = var.bootstrap_2_gcp_region
+  project = var.bootstrap_2_gcp_project_id
+  storage_class = "COLDLINE"
+
+  versioning {
+    enabled = false
+  }
+}
