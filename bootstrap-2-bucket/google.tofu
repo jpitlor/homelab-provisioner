@@ -67,7 +67,7 @@ resource "google_storage_bucket" "backup_bucket" {
 }
 
 resource "google_storage_hmac_key" "storage" {
-  service_account_email = local.service_account.email
+  service_account_email = local.service_account.client_email
 }
 
 output "access_key" {
