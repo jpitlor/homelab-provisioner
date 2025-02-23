@@ -124,3 +124,13 @@ resource "google_artifact_registry_repository_iam_binding" "binding" {
 
   depends_on = [time_sleep.wait_repository_create]
 }
+
+resource "google_artifact_registry_repository_iam_binding" "binding_public" {
+  project = google_artifact_registry_repository.chart-repository.project
+  location = google_artifact_registry_repository.chart-repository.location
+  repository = google_artifact_registry_repository.chart-repository.name
+  role = "roles/artifactregistry.reader"
+  members = ["allUsers"]
+
+  depends_on = [time_sleep.wait_repository_create]
+}
