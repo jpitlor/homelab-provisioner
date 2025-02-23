@@ -65,3 +65,16 @@ resource "google_storage_bucket" "backup_bucket" {
     enabled = false
   }
 }
+
+resource "google_storage_hmac_key" "storage" {
+  service_account_email = local.service_account.email
+}
+
+output "access_key" {
+  value = google_storage_hmac_key.storage.access_id
+}
+
+output "secret_key" {
+  value     = google_storage_hmac_key.storage.secret
+  sensitive = true
+}
