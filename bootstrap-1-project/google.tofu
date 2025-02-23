@@ -54,6 +54,7 @@ resource "google_project_iam_custom_role" "terraform" {
     "storage.hmacKeys.list",
     "storage.hmacKeys.get",
     "storage.hmacKeys.delete",
+    "storage.hmacKeys.update",
     "compute.disks.create",
     "compute.disks.delete",
     "compute.firewalls.get",
