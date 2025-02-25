@@ -48,6 +48,8 @@ resource "google_project_iam_custom_role" "terraform" {
     "storage.buckets.create",
     "storage.buckets.get",
     "storage.buckets.delete",
+    "storage.buckets.getIamPolicy",
+    "storage.buckets.setIamPolicy",
     "storage.objects.list",
     "storage.objects.delete",
     "storage.hmacKeys.create",
