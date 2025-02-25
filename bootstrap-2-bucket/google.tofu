@@ -55,7 +55,7 @@ resource "google_storage_bucket" "opentofu_state_bucket" {
   }
 }
 
-resource "google_storage_bucket_iam_member" "member" {
+resource "google_storage_bucket_iam_member" "opentofu_state_bucket" {
   bucket = google_storage_bucket.opentofu_state_bucket.name
   role = "roles/storage.admin"
   member = "serviceAccount:${local.service_account.client_email}"
@@ -72,7 +72,7 @@ resource "google_storage_bucket" "backup_bucket" {
   }
 }
 
-resource "google_storage_bucket_iam_member" "member" {
+resource "google_storage_bucket_iam_member" "backup_bucket" {
   bucket = google_storage_bucket.backup_bucket.name
   role = "roles/storage.admin"
   member = "serviceAccount:${local.service_account.client_email}"
