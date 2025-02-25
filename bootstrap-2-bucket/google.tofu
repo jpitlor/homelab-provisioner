@@ -55,6 +55,12 @@ resource "google_storage_bucket" "opentofu_state_bucket" {
   }
 }
 
+resource "google_storage_bucket_iam_member" "member" {
+  bucket = google_storage_bucket.opentofu_state_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${local.service_account.client_email}"
+}
+
 resource "google_storage_bucket" "backup_bucket" {
   name = "dev-pitlor-homelab-nas-backups"
   location = var.bootstrap_2_gcp_region
@@ -64,6 +70,12 @@ resource "google_storage_bucket" "backup_bucket" {
   versioning {
     enabled = false
   }
+}
+
+resource "google_storage_bucket_iam_member" "member" {
+  bucket = google_storage_bucket.backup_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${local.service_account.client_email}"
 }
 
 resource "google_storage_hmac_key" "storage" {
