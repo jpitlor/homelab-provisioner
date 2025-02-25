@@ -47,6 +47,7 @@ resource "google_project_iam_custom_role" "terraform" {
     "cloudkms.cryptoKeys.setIamPolicy",
     "storage.buckets.create",
     "storage.buckets.get",
+    "storage.buckets.list",
     "storage.buckets.delete",
     "storage.buckets.getIamPolicy",
     "storage.buckets.setIamPolicy",
