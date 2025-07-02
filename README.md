@@ -1,6 +1,6 @@
 # Homelab Provisioner
 
-These are OpenTofu files that can provision my GCP project, DNS records, and Proxmox VMs
+Technologies Used: OpenTofu (Terraform), Google Cloud (GCP), Cloudflare DNS, Proxmox
 
 # Prerequisites
 
