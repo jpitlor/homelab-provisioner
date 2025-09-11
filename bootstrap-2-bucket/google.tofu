@@ -78,6 +78,22 @@ resource "google_storage_bucket_iam_member" "backup_bucket" {
   member = "serviceAccount:${local.service_account.client_email}"
 }
 
+resource "google_storage_bucket" "container_backup_bucket" {
+  name = "dev-pitlor-homelab-container-backups"
+  location = var.bootstrap_2_gcp_region
+  project = var.bootstrap_2_gcp_project_id
+
+  versioning {
+    enabled = true
+  }
+}
+
+resource "google_storage_bucket_iam_member" "container_backup_bucket" {
+  bucket = google_storage_bucket.container_backup_bucket.id
+  role = "roles/storage.admin"
+  member = "serviceAccount:${local.service_account.client_email}"
+}
+
 resource "google_storage_hmac_key" "storage" {
   service_account_email = local.service_account.client_email
 }
