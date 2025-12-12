@@ -90,6 +90,11 @@ resource "google_project_iam_custom_role" "terraform" {
     "artifactregistry.repositories.delete",
     "artifactregistry.repositories.getIamPolicy",
     "artifactregistry.repositories.setIamPolicy",
+    "iam.serviceAccounts.create",
+    "iam.serviceAccounts.list",
+    "iam.serviceAccounts.get",
+    "iam.serviceAccounts.delete",
+    "iam.serviceAccounts.update"
   ]
 }
 
