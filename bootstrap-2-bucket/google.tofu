@@ -141,3 +141,40 @@ resource "google_artifact_registry_repository_iam_binding" "binding_public" {
 
   depends_on = [time_sleep.wait_repository_create]
 }
+
+
+esource "google_service_account" "velero" {
+  project = google_project.homelab.project_id
+  account_id = "velero"
+  display_name = "Velero"
+}
+
+resource "google_project_iam_custom_role" "velero" {
+  project = google_project.project.project_id
+  title = "Velero Service Account"
+  role_id = "veleroServiceAccount"
+  permissions = [
+    "compute.disks.get",
+    "compute.disks.create",
+    "compute.disks.createSnapshot",
+    "compute.snapshots.get",
+    "compute.snapshots.create",
+    "compute.snapshots.useReadOnly",
+    "compute.snapshots.delete",
+    "compute.zones.get"
+  ]
+}
+
+resource "google_project_iam_member" "crypto_key" {
+  project = google_project.project.project_id
+  role    = google_project_iam_custom_role.velero.id
+  member = "serviceAccount:${google_service_account.velero.email}"
+}
+
+resource "google_service_account_key" "velero" {
+  service_account_id = google_service_account.velero.name
+}
+
+output "velero_service_account_credentials" {
+  value = base64decode(google_service_account_key.velero.private_key)
+}
