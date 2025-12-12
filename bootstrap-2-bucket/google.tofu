@@ -144,13 +144,13 @@ resource "google_artifact_registry_repository_iam_binding" "binding_public" {
 
 
 resource "google_service_account" "velero" {
-  project = google_project.homelab.project_id
+  project = data.google_project.project.project_id
   account_id = "velero"
   display_name = "Velero"
 }
 
 resource "google_project_iam_custom_role" "velero" {
-  project = google_project.project.project_id
+  project = data.google_project.project.project_id
   title = "Velero Service Account"
   role_id = "veleroServiceAccount"
   permissions = [
@@ -166,7 +166,7 @@ resource "google_project_iam_custom_role" "velero" {
 }
 
 resource "google_project_iam_member" "crypto_key" {
-  project = google_project.project.project_id
+  project = data.google_project.project.project_id
   role    = google_project_iam_custom_role.velero.id
   member = "serviceAccount:${google_service_account.velero.email}"
 }
