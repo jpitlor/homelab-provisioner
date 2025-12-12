@@ -84,6 +84,8 @@ resource "google_project_iam_custom_role" "terraform" {
     "compute.images.useReadOnly",
     "compute.images.getFromFamily",
     "resourcemanager.projects.get",
+    "resourcemanager.projects.getIamPolicy",
+    "resourcemanager.projects.setIamPolicy",
     "artifactregistry.repositories.create",
     "artifactregistry.repositories.list",
     "artifactregistry.repositories.get",
