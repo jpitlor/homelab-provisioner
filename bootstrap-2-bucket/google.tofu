@@ -177,4 +177,5 @@ resource "google_service_account_key" "velero" {
 
 output "velero_service_account_credentials" {
   value = base64decode(google_service_account_key.velero.private_key)
+  sensitive = true
 }

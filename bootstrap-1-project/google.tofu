@@ -99,7 +99,12 @@ resource "google_project_iam_custom_role" "terraform" {
     "iam.serviceAccountKeys.list",
     "iam.serviceAccountKeys.get",
     "iam.serviceAccountKeys.delete",
-    "iam.serviceAccountKeys.update"
+    "iam.serviceAccountKeys.update",
+    "iam.roles.create",
+    "iam.roles.list",
+    "iam.roles.get",
+    "iam.roles.delete",
+    "iam.roles.update"
   ]
 }
 
