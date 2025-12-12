@@ -157,11 +157,18 @@ resource "google_project_iam_custom_role" "velero" {
     "compute.disks.get",
     "compute.disks.create",
     "compute.disks.createSnapshot",
+    "compute.projects.get",
     "compute.snapshots.get",
     "compute.snapshots.create",
     "compute.snapshots.useReadOnly",
     "compute.snapshots.delete",
-    "compute.zones.get"
+    "compute.snapshots.setLabels",
+    "compute.zones.get",
+    "storage.objects.create",
+    "storage.objects.delete",
+    "storage.objects.get",
+    "storage.objects.list",
+    "iam.serviceAccounts.signBlob"
   ]
 }
 
