@@ -143,7 +143,7 @@ resource "google_artifact_registry_repository_iam_binding" "binding_public" {
 }
 
 
-esource "google_service_account" "velero" {
+resource "google_service_account" "velero" {
   project = google_project.homelab.project_id
   account_id = "velero"
   display_name = "Velero"
