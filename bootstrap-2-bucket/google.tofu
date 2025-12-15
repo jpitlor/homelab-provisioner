@@ -194,6 +194,12 @@ resource "google_project_iam_member" "crypto_key" {
   member = "serviceAccount:${google_service_account.velero.email}"
 }
 
+resource "google_storage_bucket_iam_member" "container_backup_bucket_service_account" {
+  bucket = google_storage_bucket.container_backup_bucket.id
+  role = "roles/storage.admin"
+  member = "serviceAccount:${google_service_account.velero.email}"
+}
+
 resource "google_service_account_key" "velero" {
   service_account_id = google_service_account.velero.name
 }
