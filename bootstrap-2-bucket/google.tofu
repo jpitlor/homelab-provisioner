@@ -200,6 +200,12 @@ resource "google_storage_bucket_iam_member" "container_backup_bucket_service_acc
   member = "serviceAccount:${google_service_account.velero.email}"
 }
 
+resource "google_storage_bucket_iam_member" "postgres_backup_bucket_service_account" {
+  bucket = google_storage_bucket.postgres_backup_bucket.id
+  role = "roles/storage.admin"
+  member = "serviceAccount:${google_service_account.velero.email}"
+}
+
 resource "google_service_account_key" "velero" {
   service_account_id = google_service_account.velero.name
 }
