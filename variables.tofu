@@ -65,3 +65,8 @@ variable "proxmox_disk_datastore" {
   type = string
   default = "local-lvm"
 }
+
+variable "proxmox_cluster_nodes" {
+  description = "List of nodes in the Proxmox cluster"
+  type = list(string)
+}

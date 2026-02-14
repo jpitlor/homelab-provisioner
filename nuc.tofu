@@ -8,10 +8,12 @@ provider "proxmox" {
 }
 
 resource "proxmox_vm_qemu" "docker_containers_vm" {
-  name = "docker-containers-test"
-  clone = "docker-containers-template"
+  for_each = toset(var.proxmox_cluster_nodes)
+
+  name = "docker-containers-${each.key}-test"
+  clone = "docker-containers-${each.key}-template"
   tags = "docker_containers"
-  target_node = var.proxmox_node_name
+  target_node = each.key
 
   disks {
     scsi {
@@ -27,7 +29,6 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
   network {
     model = "virtio"
     bridge = "vmbr0"
-    macaddr = "f6:13:a0:be:25:a1"
   }
 
   sockets = 4
@@ -63,34 +64,3 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
   ipconfig0 = "dhcp"
   agent = 1
 }
-
-# resource "proxmox_vm_qemu" "home_assistant_vm" {
-#   name = "home-assistant"
-#   tags = "home_assistant"
-#   clone = "home-assistant-template"
-#   target_node = var.proxmox_node_name
-#
-#   disks {
-#    scsi {
-#      scsi0 {
-#        disk {
-#          storage = var.proxmox_disk_datastore
-#          size = 64
-#        }
-#      }
-#    }
-#  }
-#
-#   usb {
-#     # This is a Sonoff ZigBee dongle
-#     host = "10c4:ea60"
-#   }
-#
-#   network {
-#     model = "virtio"
-#     bridge = "vmbr0"
-#   }
-#
-#   sockets = 2
-#   memory = 3072
-# }

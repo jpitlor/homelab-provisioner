@@ -5,3 +5,4 @@ proxmox_endpoint = "CHANGEME"
 pm_user = "CHANGEME"
 pm_password = "CHANGEME"
 proxmox_node_name = "CHANGME"
+proxmox_cluster_nodes = [ "CHANGEME" ]
