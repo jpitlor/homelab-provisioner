@@ -11,7 +11,7 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
   for_each = toset(var.proxmox_cluster_nodes)
 
   name = "docker-containers-${each.key}-test"
-  clone = "docker-containers-${each.key}-template"
+  clone = "debian-base-template"
   tags = "docker_containers"
   target_node = each.key
 
@@ -40,7 +40,7 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
 resource "proxmox_vm_qemu" "dev_playground_vm" {
   name = "dev-playground"
   tags = "dev_playground"
-  clone = "dev-playground-template"
+  clone = "debian-base-template"
   target_node = var.proxmox_node_name
 
   disks {
