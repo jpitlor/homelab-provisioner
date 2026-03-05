@@ -54,6 +54,7 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
     }
   }
 
+ipconfig0 = "gw=192.168.0.1"
   network {
     model = "virtio"
     bridge = "vmbr0"
