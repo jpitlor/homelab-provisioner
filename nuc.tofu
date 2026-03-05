@@ -64,3 +64,10 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
   ipconfig0 = "dhcp"
   agent = 1
 }
+
+output "k3s_node_ips" {
+  description = "The IPs of the k3s nodes created"
+  value = {
+    for node, machine in proxmox_vm_qemu.docker_containers_vm : node => machine.default_ipv4_address
+  }
+}
