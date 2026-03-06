@@ -33,7 +33,7 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
 
   sockets = 4
   memory = 12288
-  ipconfig0 = "dhcp"
+  ipconfig0 = "ip=dhcp"
   agent = 1
 }
 
