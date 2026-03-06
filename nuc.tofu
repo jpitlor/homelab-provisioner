@@ -61,7 +61,7 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
 
   sockets = 2
   memory = 2048
-  ipconfig0 = "gw=192.168.0.1"
+  ipconfig0 = "ip=dhcp"
   agent = 1
 }
 
