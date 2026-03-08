@@ -25,13 +25,17 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
     }
   }
 
-  pcis {
-    pci0 {
-      raw {
-        raw_id = startswith(each.key, "zotac") ? "0000:01:00.0" : null
+  dynamic "pcis" {
+    for_each = startswith(each.key, "zotac") ? toset([1]) : toset([])
+
+    content {
+      pci0 {
+        raw {
+          raw_id = "0000:01:00.0"
+        }
       }
     }
-  }
+  } 
 
   network {
     id = 0
