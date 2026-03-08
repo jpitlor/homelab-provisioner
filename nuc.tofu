@@ -34,6 +34,7 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
   }
 
   network {
+    id = 0
     model = "virtio"
     bridge = "vmbr0"
   }
@@ -61,6 +62,7 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
   }
 
   network {
+    id = 0
     model = "virtio"
     bridge = "vmbr0"
   }
