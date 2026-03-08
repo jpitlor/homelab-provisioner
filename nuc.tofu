@@ -42,7 +42,6 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
   # cpu {
   #   sockets = 4
   # }
-  sockets = 4
 
   memory = 12288
   ipconfig0 = "ip=dhcp"
@@ -74,7 +73,6 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
   # cpu {
   #   sockets = 2
   # }
-  sockets = 2
 
   memory = 2048
   ipconfig0 = "ip=dhcp"
