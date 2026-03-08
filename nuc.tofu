@@ -25,6 +25,14 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
     }
   }
 
+  pcis {
+    pci0 {
+      raw {
+        raw_id = startswith(each.key, "zotac") ? "0000:01:00.0" : null
+      }
+    }
+  }
+
   network {
     model = "virtio"
     bridge = "vmbr0"
