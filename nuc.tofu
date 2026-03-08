@@ -39,7 +39,10 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
     bridge = "vmbr0"
   }
 
-  sockets = 4
+  cpu {
+    sockets = 4
+  }
+
   memory = 12288
   ipconfig0 = "ip=dhcp"
   agent = 1
@@ -67,7 +70,10 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
     bridge = "vmbr0"
   }
 
-  sockets = 2
+  cpu {
+    sockets = 2
+  }
+
   memory = 2048
   ipconfig0 = "ip=dhcp"
   agent = 1
