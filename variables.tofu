@@ -68,5 +68,11 @@ variable "proxmox_disk_datastore" {
 
 variable "proxmox_cluster_nodes" {
   description = "List of nodes in the Proxmox cluster"
-  type = list(string)
+  type = list(object({
+    name = string,
+    capacityGb = number,
+    hasGpu = bool,
+    cpuSockets = number,
+    ramGb = number
+  }))
 }
