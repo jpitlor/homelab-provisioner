@@ -10,23 +10,23 @@ provider "proxmox" {
 resource "proxmox_vm_qemu" "docker_containers_vm" {
   for_each = toset(var.proxmox_cluster_nodes)
 
-  name = "docker-containers-${each.key.name}-test"
+  name = "docker-containers-${each.value.name}-test"
   clone = "debian-base-template"
-  target_node = each.key.name
+  target_node = each.value.name
 
   disks {
     scsi {
       scsi0 {
         disk {
           storage = var.proxmox_disk_datastore
-          size = each.key.capacityGb
+          size = each.value.capacityGb
         }
       }
     }
   }
 
   dynamic "pcis" {
-    for_each = each.key.hasGpu ? toset([1]) : toset([])
+    for_each = each.value.hasGpu ? toset([1]) : toset([])
 
     content {
       pci0 {
@@ -44,10 +44,10 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
   }
 
   cpu {
-    sockets = each.key.cpuSockets
+    sockets = each.value.cpuSockets
   }
 
-  memory = each.key.ramGb * 1024
+  memory = each.value.ramGb * 1024
   ipconfig0 = "ip=dhcp"
   agent = 1
 }
