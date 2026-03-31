@@ -8,7 +8,7 @@ provider "proxmox" {
 }
 
 resource "proxmox_vm_qemu" "docker_containers_vm" {
-  for_each = toset(var.proxmox_cluster_nodes)
+  for_each = var.proxmox_cluster_nodes
 
   name = "docker-containers-${each.value.name}-test"
   clone = "debian-base-template"

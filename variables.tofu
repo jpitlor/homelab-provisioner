@@ -48,18 +48,6 @@ variable "proxmox_node_name" {
   type = string
 }
 
-variable "proxmox_iso_datastore" {
-  description = "Datastore for ISOs"
-  type = string
-  default = "local"
-}
-
-variable "proxmox_snippet_datastore" {
-  description = "Datastore for snippets"
-  type = string
-  default = "snippets"
-}
-
 variable "proxmox_disk_datastore" {
   description = "Datastore for VM disks"
   type = string
