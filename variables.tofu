@@ -14,7 +14,7 @@ variable "gcp_region" {
 
 variable "gcp_buckets" {
   description = "List of buckets in GCP to create - the prefix dev-pitlor-homelab will be prepended"
-  type = list(object({
+  type = map(object({
     name = string,
     storage_class = string,
     enable_versioning = bool,
@@ -22,9 +22,8 @@ variable "gcp_buckets" {
     service_account_name = string,
     service_account_permissions = string
   }))
-  default = [
-    {
-      name = "velero-backups", 
+  default = {
+    "velero_backups": {
       storage_class = "STANDARD",
       enable_versioning = false,
       service_account_name = "Velero",
@@ -47,8 +46,7 @@ variable "gcp_buckets" {
         "iam.serviceAccounts.signBlob"
       ]
     },
-    {
-      name = "longhorn-backups", 
+    "longhorn_backups": {
       storage_class = "STANDARD",
       enable_versioning = false,
       service_account_name = "Longhorn",
@@ -71,8 +69,7 @@ variable "gcp_buckets" {
         "iam.serviceAccounts.signBlob"
       ]
     },
-    {
-      name = "postgres-backups", 
+    "postgres_backups": {
       storage_class = "STANDARD",
       enable_versioning = false,
       service_account_name = "Barman",
@@ -95,8 +92,7 @@ variable "gcp_buckets" {
         "iam.serviceAccounts.signBlob"
       ]
     },
-    {
-      name = "nas-backups",
+    "nas_backups": {
       storage_class = "COLDLINE",
       enable_versioning = true,
       service_account_name = "NAS",
@@ -119,7 +115,7 @@ variable "gcp_buckets" {
         "iam.serviceAccounts.signBlob"
       ]
     }
-  ]
+  }
 }
 
 ##############

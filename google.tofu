@@ -62,8 +62,7 @@ resource "google_compute_instance" "vps" {
 # Service accounts and related roles #
 ######################################
 resource "google_service_account" "homelab" {
-  for_each = tolist(var.gcp_buckets)
-  name = each.value.name
+  for_each = var.gcp_buckets
 
   project = var.gcp_project
   account_id = each.value.service_account_id
@@ -71,8 +70,7 @@ resource "google_service_account" "homelab" {
 }
 
 resource "google_project_iam_custom_role" "homelab" {
-  for_each = tolist(var.gcp_buckets)
-  name = each.value.name
+  for_each = var.gcp_buckets
 
   project = var.gcp_project
   title = "${each.value.service_account_name} Service Account"
@@ -81,11 +79,11 @@ resource "google_project_iam_custom_role" "homelab" {
 }
 
 resource "google_project_iam_member" "homelab" {
-  for_each = tolist(var.gcp_buckets)
+  for_each = var.gcp_buckets
 
   project = var.gcp_project
-  role    = google_project_iam_custom_role.homelab[each.value.name].id
-  member = "serviceAccount:${google_service_account.homelab[each.value.name].email}"
+  role    = google_project_iam_custom_role.homelab[each.key].id
+  member = "serviceAccount:${google_service_account.homelab[each.key].email}"
 }
 
 resource "google_service_account" "homelab_chart" {
@@ -100,9 +98,9 @@ resource "google_service_account" "homelab_chart" {
 # Buckets and other storage #
 #############################
 resource "google_storage_bucket" "homelab" {
-  for_each = tolist(var.gcp_buckets)
+  for_each = var.gcp_buckets
 
-  name = "dev-pitlor-homelab-${each.value.name}"
+  name = "dev-pitlor-homelab-${each.key}"
   location = var.gcp_region
   project = var.gcp_project
   storage_class = each.value.storage_class
@@ -114,11 +112,11 @@ resource "google_storage_bucket" "homelab" {
 }
 
 resource "google_storage_bucket_iam_member" "homelab" {
-  for_each = tolist(var.gcp_buckets)
+  for_each = var.gcp_buckets
 
-  bucket = google_storage_bucket.homelab["dev-pitlor-homelab-${each.value.name}"].id
+  bucket = google_storage_bucket.homelab[each.key].id
   role = "roles/storage.admin"
-  member = "serviceAccount:${google_service_account.homelab[each.value.name].email}"
+  member = "serviceAccount:${google_service_account.homelab[each.key].email}"
 }
 
 resource "google_artifact_registry_repository" "chart_repository" {
@@ -161,7 +159,7 @@ resource "google_artifact_registry_repository_iam_binding" "binding_public" {
 ##############################
 resource "google_storage_hmac_key" "homelab" {
   for_each = tolist(var.gcp_buckets)
-  service_account_email = google_service_account.homelab[each.value.name].client_email
+  service_account_email = google_service_account.homelab[each.key].client_email
 }
 
 resource "google_service_account_key" "homelab_chart" {
@@ -178,7 +176,7 @@ output "service_account_json_credentials" {
 
 output "service_account_hmac_credentials" {
   value = {
-    for bucket, key in google_storage_hmac_key.homelab : bucket => {
+    for bucket, key in google_storage_hmac_key.homelab : key => {
       "key": bucket.access_id,
       "secret": bucket.secret
     }
