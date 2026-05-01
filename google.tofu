@@ -158,7 +158,7 @@ resource "google_artifact_registry_repository_iam_binding" "binding_public" {
 # Credentials to be exported #
 ##############################
 resource "google_storage_hmac_key" "homelab" {
-  for_each = tolist(var.gcp_buckets)
+  for_each = var.gcp_buckets
   service_account_email = google_service_account.homelab[each.key].email
 }
 
