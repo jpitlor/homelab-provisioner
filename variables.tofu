@@ -15,7 +15,6 @@ variable "gcp_region" {
 variable "gcp_buckets" {
   description = "List of buckets in GCP to create - the prefix dev-pitlor-homelab will be prepended"
   type = map(object({
-    name = string,
     storage_class = string,
     enable_versioning = bool,
     service_account_id = string,
