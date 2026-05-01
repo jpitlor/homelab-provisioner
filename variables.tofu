@@ -94,8 +94,8 @@ variable "gcp_buckets" {
     "nas_backups": {
       storage_class = "COLDLINE",
       enable_versioning = true,
-      service_account_name = "NAS",
-      service_account_id = "nas",
+      service_account_name = "NAS Backups",
+      service_account_id = "nas-backups",
       service_account_permissions = [
         "compute.disks.get",
         "compute.disks.create",

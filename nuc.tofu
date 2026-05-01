@@ -47,6 +47,12 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
     sockets = each.value.cpuSockets
   }
 
+  startup_shutdown {
+    order            = -1
+    shutdown_timeout = -1
+    startup_delay    = -1
+  }
+
   memory = each.value.ramGb * 1024
   ipconfig0 = "ip=dhcp"
   agent = 1
