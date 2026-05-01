@@ -176,9 +176,9 @@ output "service_account_json_credentials" {
 
 output "service_account_hmac_credentials" {
   value = {
-    for bucket, key in google_storage_hmac_key.homelab : key => {
-      "key": bucket.access_id,
-      "secret": bucket.secret
+    for bucket, key in google_storage_hmac_key.homelab : bucket => {
+      "key": key.access_id,
+      "secret": key.secret
     }
   }
 
