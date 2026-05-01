@@ -138,7 +138,7 @@ resource "google_artifact_registry_repository_iam_binding" "binding" {
   role = "roles/artifactregistry.admin"
   members = [
     "user:jpitlor@gmail.com",
-    "serviceAccount:${google_service_account.homelab_chart.client_email}",
+    "serviceAccount:${google_service_account.homelab_chart.email}",
   ]
 
   depends_on = [time_sleep.wait_repository_create]
@@ -159,7 +159,7 @@ resource "google_artifact_registry_repository_iam_binding" "binding_public" {
 ##############################
 resource "google_storage_hmac_key" "homelab" {
   for_each = tolist(var.gcp_buckets)
-  service_account_email = google_service_account.homelab[each.key].client_email
+  service_account_email = google_service_account.homelab[each.key].email
 }
 
 resource "google_service_account_key" "homelab_chart" {
