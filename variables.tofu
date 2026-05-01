@@ -19,7 +19,7 @@ variable "gcp_buckets" {
     enable_versioning = bool,
     service_account_id = string,
     service_account_name = string,
-    service_account_permissions = string
+    service_account_permissions = list(string)
   }))
   default = {
     "velero_backups": {
