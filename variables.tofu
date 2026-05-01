@@ -1,4 +1,6 @@
-# Google Cloud Platform
+#########################
+# Google Cloud Platform #
+#########################
 variable "gcp_project" {
   description = "Project name for VPS on GCP"
   type = string
@@ -10,7 +12,9 @@ variable "gcp_region" {
   default = "us-central1"
 }
 
-# Cloudflare
+##############
+# Cloudflare #
+##############
 variable "cloudflare_api_token" {
   description = "API Token for Cloudflare"
   type        = string
@@ -21,7 +25,9 @@ variable "cloudflare_zone_id" {
   type        = string
 }
 
-# Proxmox
+###########
+# Proxmox #
+###########
 variable "proxmox_endpoint" {
   description = "Endpoint for Proxmox"
   type = string

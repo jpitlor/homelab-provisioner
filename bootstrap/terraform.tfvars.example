@@ -1,0 +1,2 @@
+gcp_billing_account = "CHANGEME"
+state_encryption_passphrase = "CHANGEME"
