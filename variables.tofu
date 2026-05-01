@@ -91,11 +91,11 @@ variable "gcp_buckets" {
         "iam.serviceAccounts.signBlob"
       ]
     },
-    "nas_backups": {
+    "synology_backups": {
       storage_class = "COLDLINE",
       enable_versioning = true,
-      service_account_name = "NAS Backups",
-      service_account_id = "nasBackups",
+      service_account_name = "Synology",
+      service_account_id = "synology",
       service_account_permissions = [
         "compute.disks.get",
         "compute.disks.create",
