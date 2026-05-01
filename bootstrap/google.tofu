@@ -107,6 +107,7 @@ resource "google_project_iam_custom_role" "terraform" {
     "iam.serviceAccounts.get",
     "iam.serviceAccounts.delete",
     "iam.serviceAccounts.update",
+    "iam.serviceAccounts.getAccessToken",
     "iam.serviceAccountKeys.create",
     "iam.serviceAccountKeys.list",
     "iam.serviceAccountKeys.get",
@@ -151,7 +152,7 @@ resource "google_kms_crypto_key" "storage_bucket" {
 resource "google_kms_crypto_key_iam_member" "service_account" {
   for_each = toset([
     "service-${google_project.homelab.number}@gs-project-accounts.iam.gserviceaccount.com",
-    google_service_account.terraform.email
+    "terraform@dev-pitlor-homelab.iam.gserviceaccount.com"
   ])
 
   crypto_key_id = google_kms_crypto_key.storage_bucket.id
