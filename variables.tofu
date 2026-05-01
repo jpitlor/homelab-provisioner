@@ -12,6 +12,116 @@ variable "gcp_region" {
   default = "us-central1"
 }
 
+variable "gcp_buckets" {
+  description = "List of buckets in GCP to create - the prefix dev-pitlor-homelab will be prepended"
+  type = list(object({
+    name = string,
+    storage_class = string,
+    enable_versioning = bool,
+    service_account_id = string,
+    service_account_name = string,
+    service_account_permissions = string
+  }))
+  default = [
+    {
+      name = "velero-backups", 
+      storage_class = "STANDARD",
+      enable_versioning = false,
+      service_account_name = "Velero",
+      service_account_id = "velero",
+      service_account_permissions = [
+        "compute.disks.get",
+        "compute.disks.create",
+        "compute.disks.createSnapshot",
+        "compute.projects.get",
+        "compute.snapshots.get",
+        "compute.snapshots.create",
+        "compute.snapshots.useReadOnly",
+        "compute.snapshots.delete",
+        "compute.snapshots.setLabels",
+        "compute.zones.get",
+        "storage.objects.create",
+        "storage.objects.delete",
+        "storage.objects.get",
+        "storage.objects.list",
+        "iam.serviceAccounts.signBlob"
+      ]
+    },
+    {
+      name = "longhorn-backups", 
+      storage_class = "STANDARD",
+      enable_versioning = false,
+      service_account_name = "Longhorn",
+      service_account_id = "longhorn",
+      service_account_permissions = [
+        "compute.disks.get",
+        "compute.disks.create",
+        "compute.disks.createSnapshot",
+        "compute.projects.get",
+        "compute.snapshots.get",
+        "compute.snapshots.create",
+        "compute.snapshots.useReadOnly",
+        "compute.snapshots.delete",
+        "compute.snapshots.setLabels",
+        "compute.zones.get",
+        "storage.objects.create",
+        "storage.objects.delete",
+        "storage.objects.get",
+        "storage.objects.list",
+        "iam.serviceAccounts.signBlob"
+      ]
+    },
+    {
+      name = "postgres-backups", 
+      storage_class = "STANDARD",
+      enable_versioning = false,
+      service_account_name = "Barman",
+      service_account_id = "barman",
+      service_account_permissions = [
+        "compute.disks.get",
+        "compute.disks.create",
+        "compute.disks.createSnapshot",
+        "compute.projects.get",
+        "compute.snapshots.get",
+        "compute.snapshots.create",
+        "compute.snapshots.useReadOnly",
+        "compute.snapshots.delete",
+        "compute.snapshots.setLabels",
+        "compute.zones.get",
+        "storage.objects.create",
+        "storage.objects.delete",
+        "storage.objects.get",
+        "storage.objects.list",
+        "iam.serviceAccounts.signBlob"
+      ]
+    },
+    {
+      name = "nas-backups",
+      storage_class = "COLDLINE",
+      enable_versioning = true,
+      service_account_name = "NAS",
+      service_account_id = "nas",
+      service_account_permissions = [
+        "compute.disks.get",
+        "compute.disks.create",
+        "compute.disks.createSnapshot",
+        "compute.projects.get",
+        "compute.snapshots.get",
+        "compute.snapshots.create",
+        "compute.snapshots.useReadOnly",
+        "compute.snapshots.delete",
+        "compute.snapshots.setLabels",
+        "compute.zones.get",
+        "storage.objects.create",
+        "storage.objects.delete",
+        "storage.objects.get",
+        "storage.objects.list",
+        "iam.serviceAccounts.signBlob"
+      ]
+    }
+  ]
+}
+
 ##############
 # Cloudflare #
 ##############

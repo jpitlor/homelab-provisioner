@@ -61,116 +61,67 @@ resource "google_compute_instance" "vps" {
 ######################################
 # Service accounts and related roles #
 ######################################
-resource "google_service_account" "velero" {
-  project = data.google_project.project.project_id
-  account_id = "velero"
-  display_name = "Velero"
+resource "google_service_account" "homelab" {
+  for_each = tolist(var.gcp_buckets)
+  name = each.value.name
+
+  project = var.gcp_project
+  account_id = each.value.service_account_id
+  display_name = each.value.service_account_name
 }
 
-resource "google_project_iam_custom_role" "velero" {
-  project = data.google_project.project.project_id
-  title = "Velero Service Account"
-  role_id = "veleroServiceAccount"
-  permissions = [
-    "compute.disks.get",
-    "compute.disks.create",
-    "compute.disks.createSnapshot",
-    "compute.projects.get",
-    "compute.snapshots.get",
-    "compute.snapshots.create",
-    "compute.snapshots.useReadOnly",
-    "compute.snapshots.delete",
-    "compute.snapshots.setLabels",
-    "compute.zones.get",
-    "storage.objects.create",
-    "storage.objects.delete",
-    "storage.objects.get",
-    "storage.objects.list",
-    "iam.serviceAccounts.signBlob"
-  ]
+resource "google_project_iam_custom_role" "homelab" {
+  for_each = tolist(var.gcp_buckets)
+  name = each.value.name
+
+  project = var.gcp_project
+  title = "${each.value.service_account_name} Service Account"
+  role_id = "${each.value.service_account_id}ServiceAccount"
+  permissions = each.value.service_account_permissions
 }
 
-resource "google_project_iam_member" "crypto_key" {
-  project = data.google_project.project.project_id
-  role    = google_project_iam_custom_role.velero.id
-  member = "serviceAccount:${google_service_account.velero.email}"
+resource "google_project_iam_member" "homelab" {
+  for_each = tolist(var.gcp_buckets)
+
+  project = var.gcp_project
+  role    = google_project_iam_custom_role.homelab[each.value.name].id
+  member = "serviceAccount:${google_service_account.homelab[each.value.name].email}"
 }
 
-resource "google_storage_bucket_iam_member" "container_backup_bucket_service_account" {
-  bucket = google_storage_bucket.container_backup_bucket.id
-  role = "roles/storage.admin"
-  member = "serviceAccount:${google_service_account.velero.email}"
+resource "google_service_account" "homelab_chart" {
+  project = var.gcp_project
+  account_id = "homelab-chart"
+  display_name = "Homelab Chart"
 }
 
-resource "google_storage_bucket_iam_member" "postgres_backup_bucket_service_account" {
-  bucket = google_storage_bucket.postgres_backup_bucket.id
-  role = "roles/storage.admin"
-  member = "serviceAccount:${google_service_account.velero.email}"
-}
-
-resource "google_service_account_key" "velero" {
-  service_account_id = google_service_account.velero.name
-}
-
-output "velero_service_account_credentials" {
-  value = base64decode(google_service_account_key.velero.private_key)
-  sensitive = true
-}
 
 
 #############################
 # Buckets and other storage #
 #############################
-resource "google_storage_bucket" "backup_bucket" {
-  name = "dev-pitlor-homelab-nas-backups"
+resource "google_storage_bucket" "homelab" {
+  for_each = tolist(var.gcp_buckets)
+
+  name = "dev-pitlor-homelab-${each.value.name}"
   location = var.gcp_region
   project = var.gcp_project
-  storage_class = "COLDLINE"
+  storage_class = each.value.storage_class
 
   versioning {
-    enabled = false
+    enabled = each.value.enable_versioning
   }
+
 }
 
-resource "google_storage_bucket_iam_member" "backup_bucket" {
-  bucket = google_storage_bucket.backup_bucket.id
+resource "google_storage_bucket_iam_member" "homelab" {
+  for_each = tolist(var.gcp_buckets)
+
+  bucket = google_storage_bucket.homelab["dev-pitlor-homelab-${each.value.name}"].id
   role = "roles/storage.admin"
-  member = "serviceAccount:${local.service_account.client_email}"
+  member = "serviceAccount:${google_service_account.homelab[each.value.name].email}"
 }
 
-resource "google_storage_bucket" "container_backup_bucket" {
-  name = "dev-pitlor-homelab-container-backups"
-  location = var.gcp_region
-  project = var.gcp_project
-
-  versioning {
-    enabled = true
-  }
-}
-
-resource "google_storage_bucket_iam_member" "container_backup_bucket" {
-  bucket = google_storage_bucket.container_backup_bucket.id
-  role = "roles/storage.admin"
-  member = "serviceAccount:${local.service_account.client_email}"
-}
-
-resource "google_storage_bucket" "postgres_backup_bucket" {
-  name = "dev-pitlor-homelab-postgres-backups"
-  location = var.gcp_region
-  project = var.gcp_project
-
-  versioning {
-    enabled = true
-  }
-}
-
-resource "google_storage_bucket_iam_member" "postgres_backup_bucket" {
-  bucket = google_storage_bucket.postgres_backup_bucket.id
-  role = "roles/storage.admin"
-  member = "serviceAccount:${local.service_account.client_email}"
-}
-
-resource "google_artifact_registry_repository" "chart-repository" {
+resource "google_artifact_registry_repository" "chart_repository" {
   location      = "us-central1"
   repository_id = "homelab-chart"
   description   = "Helm Chart repository"
@@ -178,27 +129,27 @@ resource "google_artifact_registry_repository" "chart-repository" {
 }
 
 resource "time_sleep" "wait_repository_create" {
-  depends_on = [google_artifact_registry_repository.chart-repository]
+  depends_on = [google_artifact_registry_repository.chart_repository]
   create_duration = "10s"
 }
 
 resource "google_artifact_registry_repository_iam_binding" "binding" {
-  project = google_artifact_registry_repository.chart-repository.project
-  location = google_artifact_registry_repository.chart-repository.location
-  repository = google_artifact_registry_repository.chart-repository.name
+  project = google_artifact_registry_repository.chart_repository.project
+  location = google_artifact_registry_repository.chart_repository.location
+  repository = google_artifact_registry_repository.chart_repository.name
   role = "roles/artifactregistry.admin"
   members = [
     "user:jpitlor@gmail.com",
-    "serviceAccount:${local.service_account.client_email}",
+    "serviceAccount:${google_service_account.homelab_chart.client_email}",
   ]
 
   depends_on = [time_sleep.wait_repository_create]
 }
 
 resource "google_artifact_registry_repository_iam_binding" "binding_public" {
-  project = google_artifact_registry_repository.chart-repository.project
-  location = google_artifact_registry_repository.chart-repository.location
-  repository = google_artifact_registry_repository.chart-repository.name
+  project = google_artifact_registry_repository.chart_repository.project
+  location = google_artifact_registry_repository.chart_repository.location
+  repository = google_artifact_registry_repository.chart_repository.name
   role = "roles/artifactregistry.reader"
   members = ["allUsers"]
 
@@ -208,15 +159,30 @@ resource "google_artifact_registry_repository_iam_binding" "binding_public" {
 ##############################
 # Credentials to be exported #
 ##############################
-resource "google_storage_hmac_key" "storage" {
-  service_account_email = local.service_account.client_email
+resource "google_storage_hmac_key" "homelab" {
+  for_each = tolist(var.gcp_buckets)
+  service_account_email = google_service_account.homelab[each.value.name].client_email
 }
 
-output "access_key" {
-  value = google_storage_hmac_key.storage.access_id
+resource "google_service_account_key" "homelab_chart" {
+  service_account_id = google_service_account.homelab_chart.name
 }
 
-output "secret_key" {
-  value     = google_storage_hmac_key.storage.secret
+output "service_account_json_credentials" {
+  value = {
+    "homelab_chart": base64decode(google_service_account_key.homelab_chart.private_key)
+  }
+
+  sensitive = true
+}
+
+output "service_account_hmac_credentials" {
+  value = {
+    for bucket, key in google_storage_hmac_key.homelab : bucket => {
+      "key": bucket.access_id,
+      "secret": bucket.secret
+    }
+  }
+
   sensitive = true
 }
