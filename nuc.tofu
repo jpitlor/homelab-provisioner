@@ -84,6 +84,12 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
     sockets = 2
   }
 
+  startup_shutdown {
+    order            = -1
+    shutdown_timeout = -1
+    startup_delay    = -1
+  }
+
   memory = 2048
   ipconfig0 = "ip=dhcp"
   agent = 1
