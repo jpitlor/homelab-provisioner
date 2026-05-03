@@ -17,6 +17,7 @@ variable "gcp_buckets" {
   type = map(object({
     storage_class = string,
     enable_versioning = bool,
+    credentials_type = string,
     service_account_id = string,
     service_account_name = string,
     service_account_permissions = list(string)
@@ -27,6 +28,7 @@ variable "gcp_buckets" {
       enable_versioning = false,
       service_account_name = "Velero",
       service_account_id = "velero",
+      credentials_type = "json",
       service_account_permissions = [
         "compute.disks.get",
         "compute.disks.create",
@@ -50,6 +52,7 @@ variable "gcp_buckets" {
       enable_versioning = false,
       service_account_name = "Longhorn",
       service_account_id = "longhorn",
+      credentials_type = "hmac",
       service_account_permissions = [
         "compute.disks.get",
         "compute.disks.create",
@@ -73,6 +76,7 @@ variable "gcp_buckets" {
       enable_versioning = false,
       service_account_name = "Barman",
       service_account_id = "barman",
+      credentials_type = "json",
       service_account_permissions = [
         "compute.disks.get",
         "compute.disks.create",
@@ -96,6 +100,7 @@ variable "gcp_buckets" {
       enable_versioning = true,
       service_account_name = "Synology",
       service_account_id = "synology",
+      credentials_type = "hmac",
       service_account_permissions = [
         "compute.disks.get",
         "compute.disks.create",

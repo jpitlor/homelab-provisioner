@@ -93,7 +93,6 @@ resource "google_service_account" "homelab_chart" {
 }
 
 
-
 #############################
 # Buckets and other storage #
 #############################
@@ -158,17 +157,18 @@ resource "google_artifact_registry_repository_iam_binding" "binding_public" {
 # Credentials to be exported #
 ##############################
 resource "google_storage_hmac_key" "homelab" {
-  for_each = var.gcp_buckets
+  for_each = { for name, bucket in var.gcp_buckets : name => bucket if bucket.credentials_type == "hmac" }
   service_account_email = google_service_account.homelab[each.key].email
 }
 
-resource "google_service_account_key" "homelab_chart" {
-  service_account_id = google_service_account.homelab_chart.name
+resource "google_service_account_key" "homelab" {
+  for_each = { for name, bucket in var.gcp_buckets : name => bucket if bucket.credentials_type == "json" }
+  service_account_id = google_service_account.homelab[each.key].name
 }
 
 output "service_account_json_credentials" {
   value = {
-    "homelab_chart": base64decode(google_service_account_key.homelab_chart.private_key)
+    for bucket, credentials in google_service_account_key.homelab : bucket => base64decode(credentials.private_key)
   }
 
   sensitive = true
