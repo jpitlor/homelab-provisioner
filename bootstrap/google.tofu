@@ -27,7 +27,8 @@ resource "google_project_service" "apis" {
     "cloudresourcemanager",
     "artifactregistry",
     "run",
-    "logging"
+    "logging",
+    "eventarc"
   ])
 
   depends_on = [time_sleep.wait_project_create]
