@@ -13,6 +13,7 @@ resource "proxmox_vm_qemu" "docker_containers_vm" {
   name = "docker-containers-${each.value.name}-test"
   clone = "debian-base-template"
   target_node = each.value.name
+  start_at_node_boot = true
 
   disks {
     scsi {
@@ -62,6 +63,7 @@ resource "proxmox_vm_qemu" "dev_playground_vm" {
   name = "dev-playground"
   clone = "debian-base-template"
   target_node = var.proxmox_node_name
+  start_at_node_boot = true
 
   disks {
     scsi {
