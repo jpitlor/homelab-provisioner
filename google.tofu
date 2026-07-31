@@ -47,6 +47,7 @@ resource "google_compute_instance" "vps" {
   boot_disk {
     initialize_params {
       image = "vps-image-template"
+      type = "pd-standard"
     }
   }
 
