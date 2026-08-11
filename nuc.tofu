@@ -10,7 +10,7 @@ provider "proxmox" {
 resource "proxmox_vm_qemu" "docker_containers_vm" {
   for_each = { for index, node in var.proxmox_cluster_nodes: node.name => node }
 
-  name = "docker-containers-${each.value.name}-test"
+  name = "docker-containers-${each.value.name}"
   clone = "debian-base-template"
   target_node = each.value.name
   start_at_node_boot = true
