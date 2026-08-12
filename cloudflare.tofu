@@ -8,6 +8,14 @@ resource "cloudflare_record" "subdomain" {
   value   = google_compute_address.vps_ip_address.address
   type    = "A"
 }
+}
+
+resource "cloudflare_record" "subdomain" {
+  zone_id = var.cloudflare_zone_id
+  name    = "*.tweet"
+  value   = google_compute_address.vps_ip_address.address
+  type    = "A"
+}
 
 # resource "cloudflare_record" "minecraft" {
 #   zone_id = var.cloudflare_zone_id
