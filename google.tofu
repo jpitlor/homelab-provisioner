@@ -22,7 +22,8 @@ resource "google_compute_firewall" "vps_firewall" {
   allow {
     protocol = "tcp"
     ports = [
-      "22",    # SSH
+      "22",    # SSH Proxy
+      "2222",  # SSH
       "80",    # HTTP
       "443",   # HTTPS
       "1194",  # OpenVPN
